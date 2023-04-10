@@ -1,11 +1,11 @@
 import {Controller, Get, Post, Body} from "@nestjs/common";
 import {UsersServices} from "./users.services";
 import {CreateUserDto} from "./dto/user.dto";
-import {JwtService} from "@nestjs/jwt";
+import {signInDto} from "../auth/dto/signIn.dto";
 
 @Controller('/users')
 export class UsersController {
-    constructor(private usersService: UsersServices, private jwtService: JwtService) {}
+    constructor(private usersService: UsersServices) {}
 
 
     @Post()
@@ -20,9 +20,6 @@ export class UsersController {
        return this.usersService.getAll()
     }
 
-    getOne() {
-
-    }
 
     update() {
 
