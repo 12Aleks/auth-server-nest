@@ -20,8 +20,7 @@ export class AuthService {
 
         const hashPassword = encodePassword(dto.password)
 
-        const user = await this.userService.create({...dto, password: hashPassword})
-        return user
+        return await this.userService.create({...dto, password: hashPassword})
     }
 
     async signIn(dto: signInDto): Promise<{ access_token: string }> {
@@ -37,4 +36,5 @@ export class AuthService {
            access_token: await this.jwtService.signAsync(payload)
         }
     }
+
 }

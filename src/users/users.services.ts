@@ -1,6 +1,6 @@
 import {ForbiddenException, Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, ObjectId} from "mongoose";
 import {User, UserDocument} from "./schema/user.schema";
 import {CreateUserDto} from "./dto/user.dto";
 import {signInDto} from "../auth/dto/signIn.dto";
@@ -24,12 +24,14 @@ export class UsersServices {
         return this.userModel.findOne({ email: dto.email })
     }
 
-    async update() {
-
+    async update(id: ObjectId, dto: CreateUserDto): Promise<User> {
+        await this.userModel.updateOne({_id: id}, {$set : {...dto}})
+        return this.userModel.findById({_id: id})
     }
 
-    async delete() {
-
+    async delete(id: ObjectId): Promise<ObjectId> {
+          const user = await this.userModel.findByIdAndDelete(id)
+          return user.id
     }
 
 }
